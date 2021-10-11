@@ -2,12 +2,10 @@ package com.example.meusestudosmvvm.rest;
 
 import com.example.meusestudosmvvm.models.Live;
 
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import retrofit2.http.GET;
 
 interface RetrofitService {
@@ -15,19 +13,22 @@ interface RetrofitService {
     @GET("lista-lives.json")
     fun getAllLives(): Call<List<Live>>
 
-    @GET("/api/location/44418/2021/5/28/")
-    fun getClima(): Call<List<Live>>
+    companion object {
 
-    companion object{
-        private  val  retrofitService: RetrofitService by lazy{
+        private val retrofitService: RetrofitService by lazy {
+
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://d3c0cr0sze1oo6.cloudfront.net/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
+
             retrofit.create(RetrofitService::class.java)
+
+        }
+
+        fun getInstance() : RetrofitService {
+            return retrofitService
         }
     }
-    fun getInstance():RetrofitService{
-        return retrofitService
-    }
+
 }
